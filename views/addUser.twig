@@ -2,6 +2,9 @@
 {% block content %}
     <div class="col header" >
         <h1 style="text-align:center">Add User</h1>
+        <div class="alert alert-{% if responseMessage =='Saved'%}success{% else %}danger{% endif %}" role="alert">
+            {{ responseMessage }}
+        </div> 
         <form action="/user/add" method="POST">
             <input class="form-control" type="text" name="userName" placeholder="Nombre">
             <input class="form-control" type="text" name="userLastName" placeholder="Apellidos">

@@ -53,11 +53,11 @@ $map->get('deleteUser','/user/delete/{userId}',[
     'controller'=> 'App\Controllers\UserController',
     'action'=>'getDeteleUserAction'
 ]);
-$map->get('updateUser','/user/update/{userName}',[
+$map->get('updateUser','/user/update/{userId}',[
     'controller'=> 'App\Controllers\UserController',
     'action'=>'getUpdateUserAction'
 ]);
-$map->post('postUpdateUser','/user/update/{userName}',[
+$map->post('postUpdateUser','/user/update/{userId}',[
     'controller'=> 'App\Controllers\UserController',
     'action'=>'getUpdateUserAction'
 ]);
