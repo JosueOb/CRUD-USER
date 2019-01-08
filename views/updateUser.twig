@@ -1,0 +1,16 @@
+{% extends "layout.twig" %}
+{% block content %}
+    <div class="col header" >
+        <h1 style="text-align:center">Update User</h1>
+        <form action="/user/update/{{user.userId}}" method="POST">
+            <input class="form-control" type="text" name="userName" placeholder="Nombre" value="{{user.userName}}">
+            <input class="form-control" type="text" name="userLastName" placeholder="Apellidos" value="{{user.userLastName}}">
+            <input class="form-control" type="text" name="userEmail" placeholder="Correo electrónico" value="{{user.userEmail}}">
+            <input class="form-control" type="text" name="userCedula" placeholder="Cédula" value="{{user.userCedula}}">
+            <input class="form-control" type="text" name="userPhoto" placeholder="Foto" value="{{user.userPhoto}}">
+            <input class="form-control" type="text" name="userPassword" placeholder="Contraseña" value="{{user.userPassword}}">
+            <input class="form-control" type="text" name="userStatus" placeholder="Estado" value="{{user.userStatus}}">
+            <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+    </div>
+{% endblock content %}

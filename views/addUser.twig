@@ -1,0 +1,16 @@
+{% extends "layout.twig" %}
+{% block content %}
+    <div class="col header" >
+        <h1 style="text-align:center">Add User</h1>
+        <form action="/user/add" method="POST">
+            <input class="form-control" type="text" name="userName" placeholder="Nombre">
+            <input class="form-control" type="text" name="userLastName" placeholder="Apellidos">
+            <input class="form-control" type="text" name="userEmail" placeholder="Correo electrónico">
+            <input class="form-control" type="text" name="userCedula" placeholder="Cédula">
+            <input class="form-control" type="text" name="userPhoto" placeholder="Foto">
+            <input class="form-control" type="text" name="userPassword" placeholder="Contraseña">
+            <input class="form-control" type="text" name="userStatus" placeholder="Estado">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+    </div>
+{% endblock content %}
