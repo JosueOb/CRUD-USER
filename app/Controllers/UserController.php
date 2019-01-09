@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers;
-// use Zend\Diactoros\Response\RedirectResponse;
 use App\Models\User;
 use Respect\Validation\Validator as v;
 
@@ -9,18 +8,15 @@ class UserController extends BaseController{
         // var_dump((string) $request->getbody());//entrega una cadena de texto
         // echo '<br>-----------<br>';
         // var_dump($request->getParsedBody());entrega un arreglo asociativo
-        
         $responseMessage=null;
 
         if($request->getMethod()=='POST'){
             $postData= $request->getParsedBody();
-
+            
             //attribute es de un objeto y key es para un arreglo asociativo
             $userValidator = v::key('userName', v::stringType()->notEmpty())
                               ->key('userLastName', v::stringType()->notEmpty())
                               ->key('userEmail', v::stringType()->notEmpty())
-                              ->key('userCedula', v::stringType()->notEmpty())
-                              ->key('userPhoto', v::stringType()->notEmpty())
                               ->key('userPassword', v::stringType()->notEmpty())
                               ->key('userStatus', v::stringType()->notEmpty());
 
@@ -29,11 +25,23 @@ class UserController extends BaseController{
                 $userValidator->assert($postData);
 
                 $user = new User();
+
+                $files = $request->getUploadedFiles();//regresan todos los archivos que se enviaron
+                // var_dump($files);
+                // echo '<br>';
+                $foto = $files['userPhoto'];//objeto de archivo
+                // var_dump($foto);
+
+                if($foto->getError() == UPLOAD_ERR_OK){//se verifica si estuvo bien la subida del archivo
+                    $fotoName = $foto->getClientFilename();
+                    $foto->moveTo("uploads/$fotoName");//se salva el archivo subido al servidor
+                }
+
                 $user->userName = $postData['userName'];
                 $user->userLastName = $postData['userLastName'];
                 $user->userEmail = $postData['userEmail'];
                 $user->userCedula = $postData['userCedula'];
-                $user->userPhoto = $postData['userPhoto'];
+                $user->userPhoto = $fotoName;
                 $user->userPassword = $postData['userPassword'];
                 $user->userStatus = $postData['userStatus'];
                 $user->save();
@@ -44,7 +52,6 @@ class UserController extends BaseController{
                 $responseMessage=$e->getMessage();
             }
 
-            
         }
         $users= User::all();
         return $this->renderHTML('addUser.twig',[
@@ -73,23 +80,31 @@ class UserController extends BaseController{
             try {
                 $postData= $request->getParsedBody();
             //attribute es de un objeto y key es para un arreglo asociativo
-            $userValidator = v::key('userName', v::stringType()->notEmpty())
+                $userValidator = v::key('userName', v::stringType()->notEmpty())
                                 ->key('userLastName', v::stringType()->notEmpty())
                                 ->key('userEmail', v::stringType()->notEmpty())
                                 ->key('userCedula', v::stringType()->notEmpty())
-                                ->key('userPhoto', v::stringType()->notEmpty())
+                                // ->key('userPhoto', v::stringType()->notEmpty())
                                 ->key('userPassword', v::stringType()->notEmpty())
                                 ->key('userStatus', v::stringType()->notEmpty());
                 $userValidator->assert($postData);
+
+                $files = $request->getUploadedFiles();//regresan todos los archivos que se enviaron
+                // var_dump($files['userPhoto']);
+                $foto = $files['userPhoto'];//objeto de archivo
+                if($foto->getError() == UPLOAD_ERR_OK){//se verifica si estuvo bien la subida del archivo
+                    $fotoName = $foto->getClientFilename();
+                    $foto->moveTo("uploads/$fotoName");//se salva el archivo subido al servidor
+                }
                 $user->userName = $postData['userName'];
                 $user->userLastName = $postData['userLastName'];
                 $user->userEmail = $postData['userEmail'];
                 $user->userCedula = $postData['userCedula'];
-                $user->userPhoto = $postData['userPhoto'];
+                $user->userPhoto = $fotoName;
                 $user->userPassword = $postData['userPassword'];
                 $user->userStatus = $postData['userStatus'];
                 $user->save();
-                $responseMessage = 'Saved';
+
                 return $this->redirectResponse('/user/add');
 
             } catch (\Exception $e) {
