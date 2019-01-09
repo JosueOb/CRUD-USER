@@ -42,7 +42,7 @@ class UserController extends BaseController{
                 $user->userEmail = $postData['userEmail'];
                 $user->userCedula = $postData['userCedula'];
                 $user->userPhoto = $fotoName;
-                $user->userPassword = $postData['userPassword'];
+                $user->userPassword = password_hash($postData['userPassword'],PASSWORD_DEFAULT);
                 $user->userStatus = $postData['userStatus'];
                 $user->save();
 

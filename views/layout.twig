@@ -18,24 +18,27 @@
             {% block content %}
             {% endblock content %}
         </div>
-        <h2 style="text-align:center">User List</h2>
-        <ul class="list-group">
-            {% for user in users %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span >
-                {# <img src="../public/uploads/KILL-THE-NOISE.jpg" alt="..." style="width: 50px" class="rounded-circle"> #}
-                {% block imagen %}
-                    <img src="../uploads/{{user.userPhoto}}" alt="..." style="width: 50px" class="rounded-circle ">
-                {% endblock imagen %}
-                {{ user.userName }}
-                </span>
-                <span>
-                <a href="/user/update/{{ user.userId }}" ><i class="fas fa-pencil-alt" style="color:red;" ></i></a>
-                <a href="/user/delete/{{ user.userId }}" ><i class="fas fa-trash-alt" style="color:red;" ></i></a>
-                </span>
-            </li>
-            {% endfor %}
-        </ul>
+        {% block list %}
+            <h2 style="text-align:center">User List</h2>
+            <ul class="list-group">
+                {% for user in users %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span >
+                    {# <img src="../public/uploads/KILL-THE-NOISE.jpg" alt="..." style="width: 50px" class="rounded-circle"> #}
+                    {% block imagen %}
+                        <img src="../uploads/{{user.userPhoto}}" alt="..." style="width: 50px" class="rounded-circle ">
+                    {% endblock imagen %}
+                    {{ user.userName }}
+                    </span>
+                    <span>
+                    <a href="/user/update/{{ user.userId }}" ><i class="fas fa-pencil-alt" style="color:red;" ></i></a>
+                    <a href="/user/delete/{{ user.userId }}" ><i class="fas fa-trash-alt" style="color:red;" ></i></a>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endblock %}
+        
     </div>
 
 </body>
